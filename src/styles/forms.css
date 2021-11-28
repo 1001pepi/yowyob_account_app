@@ -1,0 +1,6 @@
+/*mise en forme de l'alerte pour le mauvais remplissage des formulaires*/
+.form-alert{
+    background-color: rgba(255, 0, 0, 0.2);
+    font-weight: bold;
+    text-align: center;
+}
