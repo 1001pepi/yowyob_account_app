@@ -14,7 +14,9 @@ function App() {
   //objet contenant les liens de l'API
   const links = {
     //lien vers les comptes yowyob
-    yowyobAccountRequestURL: "http://localhost:8000/yowyob-account-api/accounts/",
+    //yowyobAccountRequestURL: "http://localhost:8000/yowyob-account-api/accounts/",
+    yowyobAccountRequestURL: "https://anselme.pythonanywhere.com/yowyob-account-api/accounts",
+
   }
 
   //paramètres de connexion à l'API
@@ -39,7 +41,7 @@ function App() {
             <Route path="/account-created" component={AccountCreated}/>
 
             <Route path="/sign-in" component={Login} />
-            
+
           </Switch>
         </div>
       </div>
