@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import logo from "../../assets/logo.png"
 import '../../styles/auth.css'
+import '../../styles/forms.css'
 
 import authSlice from "../../store/slices/auth";
 
@@ -12,8 +13,15 @@ function Login(){
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState("");
+    
     const dispatch = useDispatch();
     const history = useHistory();
+
+    //etat pour contrôler l'affichage du message d'alerte pour le bon remplissage du formulaire
+    const [displayAlert, setDisplayAlert] = useState(false)
+
+    //etat contenant le message d'alerte à afficher pour le remplissage des formulaires
+    const [alertMsg, setAlertMsg] = useState('')
 
     let _email, _password
 
@@ -46,7 +54,8 @@ function Login(){
             history.push("/");
         })
         .catch((err) => {
-            console.log(err)
+            setDisplayAlert(true)
+            setAlertMsg("Incorrect email or password!")
             setMessage(err.response);
         })
     }
@@ -93,6 +102,13 @@ function Login(){
                                     <label className="custom-control-label" htmlFor="showPasswordCheckbox">Show password</label>
                                 </div>
                             </div>
+
+                            <hr></hr>
+                            {
+                                displayAlert ? <div className="form-alert col-12" style={{marginBottom:"25px"}}>
+                                    {alertMsg}
+                                </div> : null
+                            }
 
                             <button type="submit" className="btn btn-primary btn-block" onClick={event => handleClick(event)}>Sign in</button>
 
