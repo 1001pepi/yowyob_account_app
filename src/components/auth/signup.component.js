@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from "react";
-import logo from "../assets/logo.png"
+import logo from "../../assets/logo.png"
 
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link,
     useHistory,
 } from "react-router-dom";
   
-import '../styles/forms.css'
-import '../styles/signup.css'
+import '../../styles/forms.css'
+import '../../styles/signup.css'
+import '../../styles/auth.css'
 
 var validator = require("email-validator");
 var passwordValidator = require('password-validator');
 
-function Signup({links,
-    username, password}){
+function Signup({username, password}){
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -106,12 +106,15 @@ function Signup({links,
         var form = formValidation();
 
         if(form){
-            axios.post(links.yowyobAccountRequestURL, form)
+            axios
+            .post(`${process.env.REACT_APP_YOWYOB_ACCOUNT_REQUEST_URL}/register/`, form)
             .then(function(response){
                 var status = response.status;
 
                 if(status == 201){
                     history.push("/account-created");
+
+                    console.log(response.data)
                 }
             })
             .catch(function (error) {
@@ -127,66 +130,68 @@ function Signup({links,
     }
 
     return (
-        <div>
-            <div className="container-fluid">
-                <img src={logo} alt="yowyob"/>
-            </div>
-
-            <form>
-                <br></br>
-                <h3>Sign up</h3>
-
-                <div className="overflow-auto signup-form">
-                    <div className="form-group">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<label>Nom</label>
-                        <input type="text" id="last_name" className="form-control" placeholder="Last name"/>
-                    </div>
-
-                    <div className="form-group">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<label>Prénom</label>
-                        <input type="text" id="first_name" className="form-control" placeholder="First name"/>
-                    </div>
-
-                    <div className="form-group">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<label>Email</label>
-                        <input type="email" id="email" className="form-control" placeholder="Enter email"/>
-                    </div>
-
-                    <div className="form-group">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<label>Mot de passe</label>
-                        {
-                            showPassword ?
-
-                            <input type="text" id="password" className="form-control" placeholder="Enter password"/>
-
-                            :
-
-                            <input type="password" id="password" className="form-control" placeholder="Enter password"/>
-                        }
-                        
-                    </div>
-
-                    <div className="form-group">
-                        <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="showPasswordCheckbox" />
-                            <label className="custom-control-label" htmlFor="showPasswordCheckbox">Show password</label>
+        <div className="auth">
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <div>
+                        <div className="container-fluid">
+                            <img src={logo} alt="yowyob"/>
                         </div>
+
+                        <form>
+                            <br></br>
+                            <h3>Sign up</h3>
+
+                            <div>
+                                <div className="form-group">
+                                    <input type="text" id="last_name" className="form-control" placeholder="Last name"/>
+                                </div>
+
+                                <div className="form-group">
+                                    <input type="text" id="first_name" className="form-control" placeholder="First name"/>
+                                </div>
+
+                                <div className="form-group">
+                                    <input type="email" id="email" className="form-control" placeholder="Enter email"/>
+                                </div>
+
+                                <div className="form-group">
+                                    {
+                                        showPassword ?
+
+                                        <input type="text" id="password" className="form-control" placeholder="Enter password"/>
+
+                                        :
+
+                                        <input type="password" id="password" className="form-control" placeholder="Enter password"/>
+                                    }
+                                    
+                                </div>
+
+                                <div className="form-group">
+                                    <div className="custom-control custom-checkbox">
+                                        <input type="checkbox" className="custom-control-input" id="showPasswordCheckbox" />
+                                        <label className="custom-control-label" htmlFor="showPasswordCheckbox">Show password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr></hr>
+                            {
+                                displayAlert ? <div className="form-alert col-12" style={{marginBottom:"25px"}}>
+                                    {alertMsg}
+                                </div> : null
+                            }
+
+                            <button type="submit" className="btn btn-primary btn-block" onClick={(event) => createAccount(event)}>Sign Up</button>
+                            <p className="forgot-password text-center">
+                                Already registered <a href="/sign-in">sign in?</a>
+                            </p>
+                        </form>
                     </div>
                 </div>
-                
-                <hr></hr>
-                {
-                    displayAlert ? <div className="form-alert col-12" style={{marginBottom:"25px"}}>
-                        {alertMsg}
-                    </div> : null
-                }
-
-                <button type="submit" className="btn btn-primary btn-block" onClick={(event) => createAccount(event)}>Sign Up</button>
-                <p className="forgot-password text-right">
-                    Already registered <a href="/sign-in">sign in?</a>
-                </p>
-            </form>
-        </div>
+            </div>
+        </div> 
     );
 }
 

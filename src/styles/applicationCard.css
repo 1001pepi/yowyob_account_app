@@ -1,0 +1,13 @@
+.custom-card-image{
+    width: 70%;
+}
+
+.applicationCard{
+    transition: transform .1s;
+    min-height: 25vh;
+}
+
+.applicationCard:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
